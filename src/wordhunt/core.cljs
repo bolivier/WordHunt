@@ -5,7 +5,7 @@
    [wordhunt.events :as events]
    [wordhunt.views :as views]
    [wordhunt.config :as config]
-   ))
+   wordhunt.theme))
 
 
 (defn dev-setup []

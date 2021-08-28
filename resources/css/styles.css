@@ -20,6 +20,15 @@ code {
   font-family: "Montserrat", sans-serif;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 35vh;
+  width: 100%;
+}
+
 .app {
   height: 100vw;
   background-color: #282c34;

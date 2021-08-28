@@ -1,4 +1,5 @@
 (ns wordhunt.db)
 
 (def default-db
-  {:name "rf"})
+  {:name "rf"
+   :wordhunt.theme/theme "dark"})
