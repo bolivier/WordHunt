@@ -2,13 +2,32 @@
   "name": "wordhunt",
   "scripts": {
     "start": "npx shadow-cljs watch app browser-test karma-test",
+    "build:css": "postcss ./resources/css/styles.css -d ./resources/public/static/css",
+    "watch:css": "chokidar 'resources/css/**/*.css' --command 'node resources/css-watcher.js'",
     "release": "npx shadow-cljs release app",
     "build-report": "npx shadow-cljs run shadow.cljs.build-report app target/build-report.html"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
-    "shadow-cljs": "2.15.2",
+    "postcss-cli": "^8.3.1",
+    "postcss-import": "^14.0.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "shadow-cljs": "2.15.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.3.3",
+    "chokidar-cli": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "cssnano": "^5.0.8",
+    "mkdirp": "^1.0.4",
+    "pixrem": "^5.0.0",
+    "postcss": "^8.3.6",
+    "postcss-calc": "^8.0.0",
+    "postcss-color-function": "^4.1.0",
+    "postcss-color-rgba-fallback": "^4.0.0",
+    "postcss-custom-properties": "^11.0.0",
+    "postcss-watcher": "^2.0.0",
+    "prettier": "^2.3.2"
   }
 }
