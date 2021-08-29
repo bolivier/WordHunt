@@ -10,6 +10,8 @@ you.
 This is a cljs re-frame translation of a [React
 tutorial](https://www.youtube.com/watch?v=ToXna81iij0).
 
+![app screenshot](resources/screenshot.png)
+
 ## Development
 
 ### Running the App
