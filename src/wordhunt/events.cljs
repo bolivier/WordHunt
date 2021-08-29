@@ -13,7 +13,7 @@
    db/default-db))
 
 (rf/reg-event-db
- ::set-word-data
+ ::set-meanings
  (fn [db [_ meanings]]
    (assoc db ::meanings meanings)))
 
@@ -27,7 +27,7 @@
  (fn [{:keys [query language]}]
    (when (and language query)
      (go
-       (rf/dispatch [::set-word-data (transform-keys
+       (rf/dispatch [::set-meanings (transform-keys
                                       csk/->kebab-case
                                       (js->clj (<! (lookup-word language query))
                                                :keywordize-keys true))])))))
