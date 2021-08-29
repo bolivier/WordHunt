@@ -1,13 +1,4 @@
 (ns wordhunt.subs
-  (:require
-   [re-frame.core :as rf]))
+  "This ns is primarily used for fully qualified keywords that are queries.
 
-(rf/reg-sub
- ::name
- (fn [db]
-   (:name db)))
-
-(rf/reg-sub
- ::word
- (fn [db _]
-   (:word db)))
+  Those queries are in their own domain namespaces.")
