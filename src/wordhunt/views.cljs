@@ -1,15 +1,5 @@
 (ns wordhunt.views
-  (:require ["@material-ui/core"
-             :refer
-             [Container
-              FormControl
-              InputLabel
-              MenuItem
-              Select
-              TextField
-              ThemeProvider
-              Switch
-              FormControlLabel]]
+  (:require ["@material-ui/core" :as comp]
             ["@material-ui/core/styles" :refer [createTheme withStyles]]
             ["@material-ui/core/colors" :refer [grey]]
             ["@material-ui/core/CssBaseline" :default CssBaseline]
@@ -21,11 +11,11 @@
             [clojure.string :as str]))
 
 (def DarkMode ((withStyles (clj->js {"switchBase" {"color"              (aget grey 300)
-                                                       "&$checked"          {"color" (aget grey 500)}
-                                                       "&$checked + $track" {"backgroundColor" (aget grey 500)}
-                                                       "checked"            {}
-                                                       "track"              {}}}))
-                   Switch))
+                                                   "&$checked"          {"color" (aget grey 500)}
+                                                   "&$checked + $track" {"backgroundColor" (aget grey 500)}
+                                                   "checked"            {}
+                                                   "track"              {}}}))
+                   comp/Switch))
 
 (defn definitions []
   (let [query    @(rf/subscribe [::subs/word-query])
@@ -33,9 +23,9 @@
         language @(rf/subscribe [::subs/language])]
     [:div.meanings
      (when (and (first meanings) query (= "en" language))
-       [:audio {:style {:background-color "#fff"
-                        :border-radius    "10px"}
-                :src (get-in meanings [0 :phonetics 0 :audio])
+       [:audio {:style    {:background-color "#fff"
+                           :border-radius    "10px"}
+                :src      (get-in meanings [0 :phonetics 0 :audio])
                 :controls true}
         "Your browser doesn't support autio elements."])
      (if (empty? query)
@@ -66,29 +56,29 @@
         meanings))]))
 
 (defn header []
-  (let [language @(rf/subscribe [::subs/language])
+  (let [language           @(rf/subscribe [::subs/language])
         on-change-language #(rf/dispatch [::events/set-language (.. % -target -value)])
 
-        search-term @(rf/subscribe [::subs/word-query])
+        search-term           @(rf/subscribe [::subs/word-query])
         on-change-search-term #(rf/dispatch [::events/word-query-change (.. % -target -value)])]
     [:div.header
      [:span.title (if (< 0 (count search-term))
                     search-term "Word Hunt")]
      [:div.inputs
-      [:> TextField {:class "search"
-                     :label "Search a Word"
-                     :value search-term
-                     :on-change on-change-search-term}]
-      [:> FormControl {:class "select"}
-       [:> InputLabel  "Language"]
-       [:> Select
-        {:value language
+      [:> comp/TextField {:class     "search"
+                          :label     "Search a Word"
+                          :value     search-term
+                          :on-change on-change-search-term}]
+      [:> comp/FormControl {:class "select"}
+       [:> comp/InputLabel  "Language"]
+       [:> comp/Select
+        {:value     language
          :on-change on-change-language}
         (map
          (fn [{:keys [value label]}]
-           ^{:key value} [:> MenuItem {:value label} value])
+           ^{:key value} [:> comp/MenuItem {:value label} value])
          dictionary/languages)
-        [:> MenuItem {:value 10} "English"]]]]]))
+        [:> comp/MenuItem {:value 10} "English"]]]]]))
 
 
 
@@ -97,7 +87,7 @@
         theme      (createTheme (clj->js {:palette {:type    @theme-type
                                                     :primary {:main "#fff"}}}))
         dark? (= @theme-type "dark")]
-    [:> ThemeProvider {:theme theme}
+    [:> comp/ThemeProvider {:theme theme}
      [:> CssBaseline]
      [:div.app
       {:style {:height "100vh"
@@ -105,7 +95,7 @@
                :color (if dark? "white" "black")
                :transition "all 0.5s linear"}}
 
-      [:> Container
+      [:> comp/Container
        {:maxWidth :md
         :style    {:display        :flex
                    :flex-direction :column
