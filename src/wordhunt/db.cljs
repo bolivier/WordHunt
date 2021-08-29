@@ -2,4 +2,4 @@
 
 (def default-db
   {:name "rf"
-   :wordhunt.theme/theme "dark"})
+   :wordhunt.theme/theme-list (cycle ["dark" "light"])})

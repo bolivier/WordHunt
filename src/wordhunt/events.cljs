@@ -3,6 +3,8 @@
             [re-frame.core :as rf]
             [wordhunt.db :as db]
             [wordhunt.dictionary :refer [lookup-word]]
+            [camel-snake-kebab.extras :refer [transform-keys]]
+            [camel-snake-kebab.core :as csk]
             [wordhunt.subs :as subs]))
 
 (rf/reg-event-db
@@ -10,18 +12,22 @@
  (fn [_ _]
    db/default-db))
 
-(rf/reg-event-fx
+(rf/reg-event-db
  ::set-word-data
- (fn [cofx [_ word-data]]
-   (let [language @(rf/subscribe [::subs/language])
-         query    @(rf/subscribe [::subs/word-query])]
-     {:db         (assoc (:db cofx) :word word-data)
-      :dictionary {:language language
-                   :query    query}})))
+ (fn [db [_ meanings]]
+   (assoc db ::meanings meanings)))
+
+(rf/reg-sub
+ ::subs/meanings
+ (fn [db _]
+   (::meanings db)))
 
 (rf/reg-fx
  :dictionary
  (fn [{:keys [query language]}]
    (when (and language query)
      (go
-       (rf/dispatch [::set-word-data (js->clj (<! (lookup-word language query)))])))))
+       (rf/dispatch [::set-word-data (transform-keys
+                                      csk/->kebab-case
+                                      (js->clj (<! (lookup-word language query))
+                                               :keywordize-keys true))])))))

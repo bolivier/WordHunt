@@ -20,7 +20,9 @@
  (fn [db _]
    (::word-query db)))
 
-(rf/reg-event-db
+(rf/reg-event-fx
  ::events/word-query-change
- (fn [db [_ value]]
-   (assoc db ::word-query value)))
+ (fn [{:keys [db]} [_ value]]
+   {:db (assoc db ::word-query value)
+    :dictionary {:query value
+                 :language @(rf/subscribe [::subs/language])}}))

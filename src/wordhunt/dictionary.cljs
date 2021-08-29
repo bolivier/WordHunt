@@ -1,7 +1,6 @@
 (ns wordhunt.dictionary
   (:require
-   [cljs.core.async :refer [<! put! chan] :refer-macros [go]]
-   [re-frame.core :as rf]
+   [cljs.core.async :refer [put! chan]]
    [clojure.string :as str]))
 
 (defn GET [url]
